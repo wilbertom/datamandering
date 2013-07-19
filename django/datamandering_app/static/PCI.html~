@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+	    <style type="text/css">
+
+       #wrap {
+          width:900px
+			          float:left;
+       }
+    
+       #left_col {
+          float:left;
+          width:440px;
+       }
+
+       #right_col {
+          float:right;
+          width:400px;
+       }
+
+       #bottom_row {
+			background-color:rgb(200,200,200);
+          float:left;
+          width:900px;
+          border-radius: 10px;
+			border:2px solid gray;
+         
+          padding:4px; 
+			
+       }
+	
+       #header {
+
+          font-size:24px;
+          font-weight:bold;
+       }
+	 #small_header {
+		 font-size:16px;
+		 color:gray ;
+		 text-align: center;
+			
+	}
+       ul {
+          list-style-type: none;
+          padding: 0;
+          margin: 0;
+       }
+    </style>
+  
+  </head>
+
+  <body>
+	<div style="width:800px; height:100px; margin-bottom:10px;">
+      <div style="width:364px; float:left;">
+         <img width="564" height="97" src="/static/datamandering.jpg" alt="datamandering">
+      </div>
+   </div>
+		<div style="width:120px; height=100%; float:left; color:white">
+			temp
+		</div>
+
+		<div style="width:80px; height=100%; float:left; margin:5px; padding:5px; text-color: rgb(0,0,100); background-color:rgb(180,180,180); font-size:18px; position: fixed;">
+				About
+				<br></br>
+				Methods
+				<br></br>
+				Make
+				<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+				<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+				<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+		</div>
+	<div id="wrap">
+	<div id="bottom_row" > <div id=header>Were did the data come from?</div> </div>
+	<br>
+	<div id="wrap">
+		<br>
+		Inital data used in this analysis came from the <a href="https://www.nhgis.org/"> National Historical Geographic Information System. </a> Determination of neighboring
+		block groups was determined with <a href="http://www.qgis.org/"> QGIS </a> and custom scripts. All code and files used for this program are available as a zip file
+		<a href="/static/data_code.zip">here</a>.
+	</div>
+	<br><br>
+	<div id="bottom_row" > <div id=header>How were the maps generated?</div> </div>
+	<br><br> 
+	<div id="wrap">
+		<div style="width:900px;">	
+			To generate each map we divided the state of illinois into ~9600 pieces of roughly the same population using the 
+			<a href="http://en.wikipedia.org/wiki/Census_block_group"> block groups </a> from the 2010 census (Step 1).  Next we selected an inital block group as the base of each
+			of the 59 districts (Step 2). The districts the were allowed to 'grow' by adding a random neighboring block groups to itself until all block groups belonged to a district. Finally,
+			 the districts swapped block groups until they were roughly the size population (Step 3). This was repeated 10,000 times to generate the maps used in further analysis.
+		</div>
+		<br>
+		
+		<div style="width:900px;">	
+		
+			<div style="width:225px; height:320px; float:left">
+			 <div style="width:210px; text-align:center; font-weight:bold;"> 1) Block Groups </div>
+         	<img width="210" height="300" src="/static/block_groups.png" alt="datamandering">
+			</div>
+			<div style="width:225px; height:340px; float:left">
+			 <div style="width:210px; text-align:center; font-weight:bold;"> 2) Starting points </div>
+         	<img width="210" height="300" src="/static/starting_map.png" alt="datamandering">
+			</div>
+			<div style="width:225px; height:340px; float:left">
+			 <div style="width:210px; text-align:center; font-weight:bold;"> 3) Run Algorithmn </div>
+  				<iframe width="210" height="300" src="http://www.youtube.com/embed/GmeyXU5fikQ" frameborder="0" allowfullscreen></iframe>
+			</div>
+			<div style="width:225px; height:340px; float:left">
+			 <div style="width:210px; text-align:center; font-weight:bold;"> 4) Final Map </div>
+         	<img width="210" height="300" src="/static/final_map.png" alt="datamandering">
+			</div>
+
+
+		</div>
+	</div>
+	<br><br>
+	<div id="bottom_row" > <div id=header>How was gerrymandering quantitated?</div> </div>
+	<br><br>
+	<div id="wrap">
+		<div style="width:900px;">		
+			<div id="left_col"> <img width="400" src="/static/Presentation1.jpg"></div>
+		
+			In order to determine how gerrymandered a map is, we have to quantitate something.  We choose to compare the values of each variable between
+			the different districts. Figure 1 shows an illustrative example of a made-up state with six districts that looks at an example variable: the % of the population 
+			with a college degree. Figure 1 shows:
+			<br><br>
+			1) Cracking: The upper map shows a 'cracked' map. Notice how the variable is not concentated in any districts
+			<br><br>
+			2) Packing: The lower map shows a 'packed' map where the variable is packed into 2 districts
+			<br><br>
+			To get an idea of how much each variable was packed or cracked, we looked at their variability between districts.  If a variable in a map is 'cracked' 
+			(Fig 1, top map), it will have similar values between districts; therefore, it will have a low variablity. If a variable in a map is 'packed' 
+			(Fig 1, bottom map), its values will vary greatly between districts; therefore, it will have a high variability. We then assigned a Packing/Cracking 
+			Index (PCI) for each variable in each map. A low PCI (close to 0.0) means the map is 'cracked' and a high value (close to 1.0) means the map is 'packed' 
+			for that variable.
+			<br><br>
+			<br><br>
+			Determing whether a map is gerrymandered is, well, hard. We propose that if the PCI for the variables of each map are way off from the average PCI of the 10,000
+			generated maps, it is suspect for gerrymanding. To easily visualize this, we look at
+	 		the <a href="http://quarknet.fnal.gov/toolkits/ati/histograms.html">frequency histogram </a> of the PCI for each variable from all 10,000 generated maps.   
+			<div id="left_col" style="padding:10px"> <img width="450" src="/static/Example_plot.jpg"></div> Figure 2 shows
+			an example looking at the average household income for your map and the current map. The black 'bell-shaped' curve is the frequency histogram (or approx. 
+			distribution curve) of the	average household income for all 10,000 map. This curve just show how common each PCI index value for all the maps. Notice how there are
+			very few maps with a PCI value of 0.1 or 0.9, but a lot of maps with a value of 0.55. This curve shows a normal distribution and suggests that the 10,000 generated
+			maps are a good representation of all the possible maps which is great. Next, we draw a green line where the current map's PCI is for this variable and a blue line
+			for your map. Notice how the green line is closer to the peak (~0.55) than the blue line.  This suggests that the current map has a PCI that is closer to the average
+			value than the map you selected. So, in this case, the current map is a better representatoin of the average map than your map. 
+		</div>
+	</div>
+</div>
+  </body>
+</html>
+
+
+
+
+
+
+
+

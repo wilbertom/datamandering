@@ -1,0 +1,420 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+	    <style type="text/css">
+       #wrap {
+
+          width:930px;
+			float:left;
+          margin:0 auto;
+       }
+    
+       #left_col {
+          float:left;
+          width:290px;
+			height: 450px;
+       }
+		#middle_col {
+          float:left;
+          width:290px;
+
+       }
+       #right_col {
+          float:right;
+          width:250px;
+       }
+
+       #bottom_row {
+
+          float:left;
+          width:900px;
+          border-radius: 10px;
+			border:2px solid gray;
+          margin:5px;
+          padding:5px; 
+       }
+
+       #parameter {
+          border-radius: 10px;
+			border:2px solid gray;
+          margin:7px;
+          padding:7px;
+       }
+       #header {
+			 margin-bottom:5px;
+          font-size:18px;
+          font-weight:bold;
+       }
+       #header2 {
+          font-size:14px;
+          font-weight:bold;
+       }
+
+      body { font-size: 90%; font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif; }
+
+       ul {
+          list-style-type: none;
+          padding: 0;
+          margin: 0;
+       }
+    </style>
+
+    <style>
+      #map_canvas {
+        width: 250px;
+        height: 400px;
+		  margin: 5px;
+      }
+    </style>
+	 <style>
+      #map_canvas2 {
+        width: 250px;
+        height: 400px;
+		  margin: 5px
+      }
+    </style>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script>
+
+			function initialize() {
+				var myOptions = {
+					center: new google.maps.LatLng(40.048362,-89.230957),
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				 };
+				 var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+				 var kmzLayer = new google.maps.KmlLayer('https://googledrive.com/host/0B2Jo0VTLiqp3eXI5d3o5bTU3Szg/2011_Illinois_StateSenate.kmz',{
+         suppressInfoWindows: true,
+                      map: map,
+                      preserveViewport: true
+                  });
+				 kmzLayer.setMap(map);
+				  map.setZoom(6);
+
+ 				 var map2 = new google.maps.Map(document.getElementById("map_canvas2"), myOptions);
+				 var kmzLayer2 = new google.maps.KmlLayer('https://googledrive.com/host/0B2Jo0VTLiqp3eXI5d3o5bTU3Szg/map_35.kmz',{
+                      suppressInfoWindows: true,
+                      map: map,
+                      preserveViewport: true
+                  });
+
+
+				 kmzLayer2.setMap(map2);
+				 map2.setZoom(6);
+
+			}
+
+			google.maps.event.addDomListener(window, 'load', initialize);
+
+
+    </script>
+	 <script language="javascript" type="text/javascript" src="/static/jquery-2.0.2.min.js"></script>
+	<script>
+		$(function() {
+	
+			function filterPath(string) {
+				return string
+				.replace(/^\//,'')
+				.replace(/(index|default).[a-zA-Z]{3,4}$/,'')
+				.replace(/\/$/,'');
+			}
+	
+			var locationPath = filterPath(location.pathname);
+			var scrollElem = scrollableElement('html', 'body');
+	
+			// Any links with hash tags in them (can't do ^= because of fully qualified URL potential)
+			$('a[href*=#]').each(function() {
+	
+				// Ensure it's a same-page link
+				var thisPath = filterPath(this.pathname) || locationPath;
+				if (  locationPath == thisPath
+					&& (location.hostname == this.hostname || !this.hostname)
+					&& this.hash.replace(/#/,'') ) {
+	
+						// Ensure target exists
+						var $target = $(this.hash), target = this.hash;
+						if (target) {
+	
+							// Find location of target
+							var targetOffset = $target.offset().top;
+							$(this).click(function(event) {
+	
+								// Prevent jump-down
+								event.preventDefault();
+	
+								// Animate to target
+								$(scrollElem).animate({scrollTop: targetOffset}, 800, function() {
+	
+									// Set hash in URL after animation successful
+									location.hash = target;
+	
+								});
+							});
+						}
+				}
+	
+			});
+	
+			// Use the first element that is "scrollable"  (cross-browser fix?)
+			function scrollableElement(els) {
+				for (var i = 0, argLength = arguments.length; i <argLength; i++) {
+					var el = arguments[i],
+					$scrollElement = $(el);
+					if ($scrollElement.scrollTop()> 0) {
+						return el;
+					} else {
+						$scrollElement.scrollTop(1);
+						var isScrollable = $scrollElement.scrollTop()> 0;
+						$scrollElement.scrollTop(0);
+						if (isScrollable) {
+							return el;
+						}
+					}
+				}
+				return [];
+			}
+	
+		});
+	</script>
+  </head>
+
+	<body>
+
+
+		<div id="about" style="width:800px; height:120px; margin-bottom:10px;">
+		   <div style="width:704px; float:left;">
+		      <img width="700" height="118" src="/static/datamandering.jpg" alt="datamandering">
+		   </div>
+		</div>
+		<div style="width:70px; height=100%; float:left; color:white">
+			temp
+		</div>
+
+		<div style="width:53px; height=100%; float:left; margin:5px; padding:5px; text-color: rgb(0,0,100); background-color:rgb(70,70,70); font-size:18px; position: fixed;">
+		
+				<div style="margin-left: auto; margin-right: auto;width:35px; padding-top:15px;">
+		      <a href="#about"><img width="35" src="/static/about.jpg" alt="about"></a>
+				</div>
+
+				<div style="margin-left: auto; margin-right: auto; width:50px;padding-top:15px;">
+		     	<a href="#method"> <img width="50" src="/static/method.jpg" alt="about"></a>
+				</div>
+
+				<div style="margin-left: auto; margin-right: auto; width:45px;padding-top:15px;">
+		      <a href="#analysis"><img width="45" src="/static/analysis.jpg" alt="about"></a>
+				</div>
+
+				<div style="margin-left: auto; margin-right: auto; width:45px;padding-top:15px;padding-bottom:15px;">
+		      <a href="#map"><img width="45" src="/static/map.jpg" alt="about"></a>
+				</div>
+
+
+		</div>
+		<div id="wrap">
+			<div style="background-color:rgb(210,210,210); background-image: url(/static/about_bk.jpg); padding:10px; margin:3px;">
+								<div style="font-size:50px;text-align:center;">About</div>
+				<div id="header">What is Gerrymandering?</div>
+				<div style="text-align:justify;">
+					Redistricting effects almost every aspect of government from where our children 
+					go to school to which political party controls government. Gerrymandering is the process of drawing district boundries to benefit a particular group 
+					such as a political party.  The 2011 Illinois Redistricting map is a classic example of gerrymandering and benefits
+					one party <a href="http://www.nytimes.com/2013/02/03/opinion/sunday/the-great-gerrymander-of-2012.html?pagewanted=all&_r=0"> * </a>.  A great 
+					explaination of gerrymandering is found on
+					the <a href="http://www.redistrictingthenation.com/whatis-gerrymandering.aspx">'Redistricting the Nation'</a> website.
+					<br/><br/>
+					<div id="header">What is Datamandering? </div>
+					We wanted to show how gerrymandering happens and suggest ways to analyze it. As a working example, we combined
+					open data with analytics to let anyone create a gerrymandered map of the 59 Illinois state senates districts and compare it to the 
+					 recently approved map by IL politicans. The general idea is to get a good idea of what an average map of the IL senate should look like
+					than compare the current IL senate map to the average map to determine the level of gerrymandering.  As a by-product of this analysis, we created a tool
+					that allows anyone to create their own gerrymandered map to push their own agenda.
+				</div>
+			</div>
+			
+			<div id="method" style="background-color:rgb(210,210,210);background-image: url(/static/analysis_bk.jpg); padding:10px; margin:3px;">	
+				<div style="font-size:50px;text-align:center;">Method</div>
+				<div id=header>Were did the data come from?</div>
+
+				Initial data used in this analysis came from the <a href="https://www.nhgis.org/"> National Historical Geographic Information System. </a> Determination of neighboring
+				block groups was determined with <a href="http://www.qgis.org/"> QGIS </a> and custom scripts.  The results from the 2008 Obama/McCain presidental electrion were used 
+				as an identifier of political party and obtained from the <a href="http://www.publicmapping.org/resources/data#TOC-Election-Data">Public Mapping Project</a>. The election
+				results were weighted to increase the Republican votes such that the current IL state senate map had 19 Republician and 40 Democratic majority districts.  Presidential 
+				elections are not a good data set for state senate elections since IL votes more Democratic in presidental elections and Obama is from IL.  However, this was
+				the only dataset readily available.
+
+				<br></br>
+				<div id="header">Step 1: Generate a large sample of possible IL state senate maps</div>
+
+
+				The general idea is to get a good idea of what an average map of the IL senate should look like than compare the current IL senate map to the average map to determine the level of gerrymandering.
+				To generate each map, we divided the state of illinois into ~9600 pieces of roughly the same population using the 
+				<a href="http://en.wikipedia.org/wiki/Census_block_group"> block groups </a> from the 2010 census (Step 1).  Next we selected an inital block group as the base of each
+				of the 59 districts (Step 2). The districts were then allowed to 'grow' by adding a random neighboring block groups to itself until all block groups belonged to a district. Finally,
+				 the districts swapped block groups until they were roughly the size population (Step 3). This was repeated 10,000 times to generate the maps used in further analysis.
+				<br></br>
+
+				<div style="width:225px; height:320px; float:left">
+				 <div style="width:210px; text-align:center; font-weight:bold;"> 1) Block Groups </div>
+		      	<img width="210" height="300" src="/static/block_groups.png" alt="datamandering">
+				</div>
+				<div style="width:225px; height:340px; float:left">
+				 <div style="width:210px; text-align:center; font-weight:bold;"> 2) Starting points </div>
+		      	<img width="210" height="300" src="/static/starting_map.png" alt="datamandering">
+				</div>
+				<div style="width:225px; height:340px; float:left">
+				 <div style="width:210px; text-align:center; font-weight:bold;"> 3) Run Algorithmn </div>
+	  				<iframe width="210" height="300" src="http://www.youtube.com/embed/GmeyXU5fikQ" frameborder="0" allowfullscreen></iframe>
+				</div>
+				<div style="width:225px; height:340px; float:left">
+				 <div style="width:210px; text-align:center; font-weight:bold;"> 4) Final Map </div>
+		      	<img width="210" height="300" src="/static/final_map.png" alt="datamandering">
+				</div>
+
+		
+				<br></br><br></br>
+				<div id=header><br></br>Step 2: Determine what an 'average' map looks like by quantiating Gerrymandering in all the maps</div>
+				<div style="height:420px; width:342px; float:left;padding-right:15px;">
+					<img height="420" width="342" src="/static/Presentation1.jpg" border=4>
+				</div>
+				<div style="text-align:justify;">
+					In order to determine how gerrymandered a map is, we have to quantitate something.  We choose to compare the values of each variable between
+					the different districts. Figure 1 shows an illustrative example of a made-up state with six districts that looks at an example variable: the % of the population 
+					with a college degree. Figure 1 shows:
+					<br></br>
+					1) Cracking: The upper map shows a 'cracked' map where similar voters were split into multiple districts to dilute their voting power
+					<br></br>
+					2) Packing: The lower map shows a 'packed' map where similar voters were concentrated into 2 districts to reduce their voting power in other districts
+					<br></br>
+
+					To get an idea of how much each variable was packed or cracked, we looked at their variability between districts.  If a variable in a map is 'cracked' 
+					(Fig 1, top map), it will have similar values between districts; therefore, it will have a low variablity. If a variable in a map is 'packed' 
+					(Fig 1, bottom map), its values will vary greatly between districts; therefore, it will have a high variability. We then assigned a Packing/Cracking 
+					Index (PCI) for each variable in each map. A low PCI (close to 0.0) means the map is 'cracked' and a high value (close to 1.0) means the map is 'packed' 
+					in regards to that variable.
+				</div>
+				<br></br><br></br><br></br><br></br>
+				
+			</div>
+
+
+			<div id="analysis" style="background-color:rgb(210,210,210);background-image: url(/static/about_bk.jpg);padding:10px; margin:3px;">
+				<div style="font-size:50px;text-align:center;">Analysis</div>	
+				<div id="header">Gerrymandering Visualization </div>
+				<div style="height:215px; width:350px; float:right; padding-left:15px;padding-bottom:15px;">
+					<img width="350" height="215" src="/static/Example_plot.jpg" border=4>
+				</div>
+				<div style="text-align:justify;">
+					Determing whether a map is gerrymandered is, well, hard. We propose that if the PCI for the variables of each map are way off from the average PCI of the 10,000
+					generated maps, it is suspect for gerrymanding. To easily visualize this, we look at
+			 		the <a href="http://quarknet.fnal.gov/toolkits/ati/histograms.html">frequency histogram </a> of the PCI for each variable. Basically, a histogram is like the 
+					<a href="http://en.wikipedia.org/wiki/Connect_Four">Connect 4 game</a>.  First you determine the lowest and highest PCI for each variable then separate it into
+					bins (we used 25 bins).  Next you go though all you're values and drop them in the matching bin. As you add samples a pattern should emerge.  Figure 3
+					show a histogram for 30, 270, and 2500 maps. Notice that as we add samples, the distribution forms a normal distribution or 'bell-shaped' curve. This suggests
+					suggests we have made enough maps to represent all the possible maps. 
+
+
+					an example looking at the average household income for your map and the current map. The black 'bell-shaped' curve is the frequency histogram (or approx. 
+					distribution curve) of the	average household income for all 10,000 map. This curve just show how common each PCI index value for all the maps. Notice how there are
+					very few maps with a PCI value of 0.1 or 0.9, but a lot of maps with a value of 0.55. This curve shows a normal distribution and suggests that the 10,000 generated
+					maps are a good representation of all the possible maps which is great. Next, we draw a green line where the current map's PCI is for this variable and a blue line
+					for your map. Notice how the green line is closer to the peak (~0.55) than the blue line.  This suggests that the current map has a PCI that is closer to the average
+					value than the map you selected. So, in this case, the current map is a better representatoin of the average map than your map. 
+				</div>		
+			</div>
+
+			<div id="map" style="background-color:rgb(210,210,210);padding:10px; margin:3px;">	
+				<div style="font-size:50px;text-align:center;">Make Your Map</div>			
+				<div id="header">3) Your values, your map </div>
+				To gerrymander, you just look at a data source that is not regulated by the re-districting laws, then pick a map from the millions of legal maps that maximizes 
+				the districts with a majority of your party's voters therefore greatly increasing your party's influence in government.
+				Just set the options below and click the 'Submit Choices' button.
+				The map that most closely represents your preferences out of the 10,000 generated maps will be selected and compare to the current map.
+				<br></br>
+				<div id="header2"> A) Cracking and Packing people with census data: </div> 
+				Cracking is spliting similar voters into multiple districts to dilute their voting power, while packing is concentrating them
+				 into a small number of districts to reduce their voting power in other districts<a href="http://en.wikipedia.org/wiki/Gerrymandering">*</a>. 
+				Crack or pack voters by different characterists collected from the 2010 census.
+				<br></br>
+				<div id="header2"> B) Playing Politics: </div> 
+				The results from the 2008 Obama/McCain presidental electrion were used as an identifier of political party<a href="http://www.publicmapping.org/resources/data">*</a>. 
+				Obviously, this is not the ideal dataset, but it serves as a useful dataset to illustrate gerrymandering.  You can crack or pack by political party or
+				 simply choose maps that have the highest number of majority Republican or Democratic voter districts.
+			
+		
+				<form action="/" method="post">{% csrf_token %}
+
+				<div id="left_col">
+					<div id="parameter">
+
+							<div id="header">Voter Characterists</div>
+
+							<br></br>
+								{{ form.income_choices_list.errors }}
+							 <label for="id_income_choices_list">Average Household Income: </label>
+							{{ form.income_choices_list }} 
+							<br></br>
+							{{ form.poverty_choices_list.errors }}
+							 <label for="id_poverty_choices_list">Population living in Poverty: </label>
+							{{ form.poverty_choices_list }} 
+							<br></br>
+								{{ form.college_choices_list.errors }}
+							 <label for="id_college_choices_list">Population with College Degrees: </label>
+							{{ form.college_choices_list }} 
+							<br></br>
+								{{ form.minority_choices_list.errors }}
+							 <label for="id_minority_choices_list">Minority Population: </label>
+							{{ form.minority_choices_list }} 
+							<br></br>
+								{{ form.compactness_choices_list.errors }}
+							 <label for="id_compactness_choices_list">Compactness: <br/> High = regularly shaped districts <br/> Low = ilregularly shaped districts</label>
+							{{ form.compactness_choices_list }} 
+							<br></br>
+					</div>
+				</div>
+
+				<div id="left_col">
+					<div id="parameter">
+
+							<div id="header">Political Party Characterists</div>
+							<br></br>
+							{{ form.dem_wins_choices_list.errors }}
+							 <label for="id_dem_wins_list">Total Party wins: </label>
+							{{ form.dem_wins_choices_list }} 
+						
+							<br></br>
+							{{ form.dem_choices_list.errors }}
+							 <label for="id_dem_choices_list">Democrat Distribution: </label>
+							{{ form.dem_choices_list }} 
+						
+							<br></br>
+								{{ form.repub_choices_list.errors }}
+							 <label for="id_repub_choices_list">Republican Distribution: </label>
+							{{ form.repub_choices_list }}
+							<br></br>
+
+					</div>
+					<input type="submit" style="background-color: rgb(0,255,0);" value="Submit Choices" />
+				</form>
+				</div>
+
+
+				<div id="middle_col">
+					<div id="parameter">
+						<div id="header">Current Map</div>
+						<div id="map_canvas"></div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</body>
+</html>
+
+
+
+
+
+
+
+

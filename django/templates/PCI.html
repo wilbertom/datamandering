@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+	    <style type="text/css">
+
+       #wrap {
+          float:left;
+          width:800px;
+       }
+    
+       #left_col {
+          float:left;
+          width:290px;
+			height: 450px;
+       }
+
+       #right_col {
+          float:right;
+          width:290px;
+			height: 450px;
+       }
+
+       #bottom_row {
+          float:left;
+          width:900px;
+          border-radius: 10px;
+			border:2px solid gray;
+          margin:5px;
+          padding:5px; 
+       }
+	
+       #header {
+          font-size:18px;
+          font-weight:bold;
+       }
+		 #small_header {
+			 font-size:16px;
+			 color:gray ;
+			 text-align: center;
+			
+		}
+
+
+       ul {
+          list-style-type: none;
+          padding: 0;
+          margin: 0;
+       }
+    </style>
+  
+  </head>
+
+  <body>
+	<div style="width:800px; height:100px; margin-bottom:10px;">
+      <div style="width:364px; float:left;">
+         <img width="564" height="97" src="/static/datamandering.jpg" alt="datamandering">
+      </div>
+   </div>
+   		<div style="width:120px; height=100%; float:left; color:white">
+			temp
+		</div>
+
+		<div style="width:80px; height=100%; float:left; margin:5px; padding:5px; text-color: rgb(0,0,100); background-color:rgb(180,180,180); font-size:18px; position: fixed;">
+				About
+				<br></br>
+				Methods
+				<br></br>
+				Make
+				<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+				<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+				<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+		</div>
+	<div id="wrap">
+	
+		<div id=bottom_row > <div id="header">How far off are these maps from an average map?</div> 
+		In order to determine how gerrymandered a map is, we have to quantitate something.  We choose to look how each variable differred between
+		the different district.  Figure 1 show a made-up state with six districts.  The map on the left plot the % of people in each district
+		with a college degree.  Each district has similar values and is an example of spreading 'cracking' a variable between the districts.   
+ 
+		To get an idea of how bad a map is gerrymandered, we looked at the <a href="http://quarknet.fnal.gov/toolkits/ati/histograms.html">frequency histogram </a> 
+		of the Packing/Cracking Index for each variable. The Packing/Cracking Index (PCI) is the co-efficient of variation for a variable in a map.
+		For instance, if the % of people with a college degree is similar in all 59 districts, then the PCI will be low.  A low PCI means that the variable (ie. % of people with college degree in a district) has 
+		been spread across the districts (ie. Cracking). If the % of people with a college degree varies greatly between all 59 districts (ie. some districts have a high
+		% of people with a college degree while other districts have a low % of people with a college degree), then the PCI will be high.  
+		A high PCI means that the variable has been clustered into certain district (ie. Packing). Figure 1 shows an example plot of the average household income for all 5000 maps.
+		The black line 
+
+	</div>
+	
+  </body>
+</html>
+
+
+
+
+
+
+
+

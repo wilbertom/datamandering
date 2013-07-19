@@ -1,0 +1,18 @@
+from scipy.stats.stats import pearsonr
+
+def find_map(variable, value):
+	infile_variance=open("/home/john/gerry/output_variance_norm.csv").read().split('\n')
+	max_corr=0
+	map_id=0
+	index=0
+	for token in infile_variance[1:2000]:
+		test_map=[]
+		token=token.split('\t')
+		for itr in variable:
+			test_map.append(token[itr])
+		[x,y]=pearsonr(value,test_map)
+		if x>max_corr:
+			max_corr=x
+			map_id=index
+		index+=1
+	return map_id

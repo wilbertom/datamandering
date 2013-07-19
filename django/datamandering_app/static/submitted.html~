@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	    <style type="text/css">
+       #wrap {
+          float:left;
+          width:800px;
+          margin:0 auto;
+       }
+    
+       #left_col {
+          float:left;
+          width:400px;
+       }
+
+       #right_col {
+          float:right;
+          width:400px;
+       }
+
+       #bottom_row {
+          float:right;
+          width:780px;
+          border-radius: 10px;
+          background-color:PaleTurquoise;
+          margin:5px;
+          padding:5px; 
+       }
+
+       #parameter {
+          border-radius: 10px;
+          background-color:LightGrey;
+          margin:5px;
+          padding:5px;
+       }
+       #header {
+          font-size:18px;
+          font-weight:bold;
+       }
+
+       ul {
+          list-style-type: none;
+          padding: 0;
+          margin: 0;
+       }
+    </style>
+    <style>
+      #map_canvas {
+        width: 250px;
+        height: 400px;
+      }
+    </style>
+	 <style>
+      #map_canvas2 {
+        width: 250px;
+        height: 400px;
+      }
+    </style>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script>
+			/**
+			 * @fileoverview Sample showing capturing a KML file click
+			 *   and displaying the contents in a side panel instead of
+			 *   an InfoWindow
+			 */
+
+
+			
+			/**
+			 * Initializes the map and calls the function that creates polylines.
+			 */
+			function initialize() {
+				var myOptions = {
+					center: new google.maps.LatLng(40.048362,-89.230957),
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				 };
+				 var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+				 var kmzLayer = new google.maps.KmlLayer('https://googledrive.com/host/0B2Jo0VTLiqp3eXI5d3o5bTU3Szg/2011_Illinois_StateSenate.kmz',{
+         suppressInfoWindows: true,
+                      map: map,
+                      preserveViewport: true
+                  });
+				 kmzLayer.setMap(map);
+				  map.setZoom(6);
+
+ 				 var map2 = new google.maps.Map(document.getElementById("map_canvas2"), myOptions);
+				 var kmzLayer2 = new google.maps.KmlLayer( {{ map_file }} ,{
+                      suppressInfoWindows: true,
+                      map: map,
+                      preserveViewport: true
+                  });
+
+
+				 kmzLayer2.setMap(map2);
+				 map2.setZoom(6);
+
+			}
+
+			google.maps.event.addDomListener(window, 'load', initialize);
+
+
+    </script>
+  </head>
+
+  <body>
+	<div style="width:800px; height:87px; margin-bottom:10px;">
+      <div style="width:364px; float:left;">
+         <img width="364" height="77" src="/static/cord.jpg" alt="Cord">
+      </div>
+   </div>
+   
+   <div style="width:780px; text-align:justify; margin:10px">
+      Cord is a meta-analysis program for medical researchers and biologists to help determine a gene's function. Cord's 
+      dataset contains gene expression data from >120,000 microarray experiments mined from the <a href="http://www.ncbi.nlm.nih.gov/geo/">GEO</a> and 
+      <a href="http://www.ebi.ac.uk/arrayexpress/">ArrayExpress </a> databases. All experiments where your gene is differentially expressed are identified and 
+      the gene network in which the gene belongs is determined. <br/> <br/>
+      Click <img width="15" height="15" src="/static/help.jpg"> for information about each parameter
+   </div>
+	<div id="wrap">
+		<div id="left_col">
+	   
+	
+ 				<div id="map_canvas"></div>
+			</div>
+		<div id="right_col">
+    		<div id="map_canvas2"></div>
+		</div>
+	</div>
+  </body>
+</html>
+
+
+
+
+
+
+
+

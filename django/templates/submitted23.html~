@@ -1,0 +1,400 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+	    <style type="text/css">
+
+       #wrap {
+          float:left;
+          width:870px;
+			 height: 450px;
+          margin:0 auto;
+       }
+    
+       #left_col {
+          float:left;
+          width:290px;
+			height: 450px;
+       }
+
+       #right_col {
+          float:right;
+          width:290px;
+			height: 450px;
+       }
+
+       #bottom_row {
+          float:left;
+          width:900px;
+          border-radius: 10px;
+			border:2px solid gray;
+          margin:5px;
+          padding:5px; 
+       }
+		 #chartLegend .legendLabel 
+		 { 
+			padding-right:10px;
+
+		 }
+		 #chartLegend2 .legendLabel 
+		 { 
+			padding-right:10px;
+
+		 }
+		 #chartLegend3 .legendLabel
+		 { 
+			padding-right:10px;
+
+		 }
+
+       #parameter {
+          border-radius: 10px;
+			border:2px solid gray;
+          margin:7px;
+          padding:7px;
+       }
+       #header {
+          font-size:18px;
+          font-weight:bold;
+       }
+		 #small_header {
+			 font-size:16px;
+			 color:gray ;
+			 text-align: center;
+			
+		}
+
+       ul {
+          list-style-type: none;
+          padding: 0;
+          margin: 0;
+       }
+    </style>
+    <style>
+      #map_canvas {
+        width: 250px;
+        height: 400px;
+      }
+    </style>
+	 <style>
+      #map_canvas2 {
+        width: 250px;
+        height: 400px;
+      }
+    </style>
+	<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+	<script language="javascript" type="text/javascript" src="/static/jquery-2.0.2.min.js"></script>
+	<script language="javascript" type="text/javascript" src="/static/flot/jquery.flot.js"></script> 
+	<script language="javascript" type="text/javascript" src="/static/flot/jquery.flot.pie.js"></script> 
+ 
+ 	 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="/js/flot/excanvas.min.js"></script><![endif]-->   
+			{% for item in plots %}
+	<script type="text/javascript">
+	
+		$(function () {
+
+				 // generate a dataset
+				var d1 = [];
+				{% for x,y in item.0 %}
+			 		d1.push([{{ x }}, {{ y }}]);
+				{% endfor %}
+				var data{{forloop.counter}} = [{ data: d1, label: " {{ item.1 }}", color: "#333" }];
+				var placeholder{{forloop.counter}} = $("#placeholder{{forloop.counter}}");
+				var markings{{forloop.counter}} = [
+					{ color: "#070", lineWidth: 2, xaxis: { from: {{ item.2 }}, to: {{ item.2 }} } },
+					{ color: "#007", lineWidth: 2, xaxis: { from: {{ item.3 }}, to: {{ item.3 }} } }
+				];
+				var plot{{forloop.counter}} = $.plot(placeholder{{forloop.counter}}, data{{forloop.counter}}, {
+					xaxis: { min: 0, max: 1 },
+					yaxis: { min: 0, max: 1 },
+					legend: {
+					    container: $("#chartLegend3")
+					},
+					grid: { markings: markings{{forloop.counter}} }
+				});
+				
+
+		});
+
+	</script>
+			{% endfor %}
+
+	<script type="text/javascript">
+	$(function () {
+		var data = [
+			{ label: "Republican", color: 'rgb(255,0,0)',  data: 19},
+			{ label: "Democrat", color: 'rgb(0,0,255)',  data: 40}
+			
+		];
+		var senate_current = $("#senate_current");
+
+		var plotA = $.plot($("#senate_current"), data, 
+			{
+				series: {
+					pie: { 
+						innerRadius: 0.5,
+						show: true
+					}
+				},
+				legend: {
+				    container: $("#chartLegend")
+				}
+			});
+	});
+
+	</script>
+	<script type="text/javascript">
+	$(function () {
+		var data = [
+			{ label: "Republican",  color: 'rgb(255,0,0)', data: {{ winning_repub }} },
+			{ label: "Democrat",  color: 'rgb(0,0,255)',data: {{ winning_dem }} }
+			
+		];
+		var senate_current = $("#senate_selected");
+
+		var plotB = $.plot($("#senate_selected"), data, 
+			{
+				series: {
+					pie: { 
+						innerRadius: 0.5,
+						show: true,
+					}
+				},
+				
+				legend: {
+				    container: $("#chartLegend")
+				}
+
+			});
+	});
+	</script>
+
+
+
+
+
+	<script type="text/javascript">
+	$(function () {
+		var data = [
+			{ label: "Minority",  data: 13},
+			{ label: "White",  data: 46}
+			
+		];
+		var senate_current = $("#minority_current");
+
+		var plotA = $.plot($("#minority_current"), data, 
+			{
+				series: {
+					pie: { 
+						innerRadius: 0.5,
+						show: true
+					}
+				},
+				legend: {
+				    container: $("#chartLegend2")
+				}
+			});
+	});
+
+	</script>
+	<script type="text/javascript">
+	$(function () {
+		var data = [
+			{ label: "Minority",  data: {{ winning_minority }} },
+			{ label: "White",  data: {{ winning_white }} }
+			
+		];
+		var senate_current = $("#minority_selected");
+
+		var plotB = $.plot($("#minority_selected"), data, 
+			{
+				series: {
+					pie: { 
+						innerRadius: 0.5,
+						show: true,
+					}
+				},
+				
+				legend: {
+				    container: $("#chartLegend2")
+				}
+
+			});
+	});
+
+    </script>
+	<script type="text/javascript">
+			/**
+			 * @fileoverview Sample showing capturing a KML file click
+			 *   and displaying the contents in a side panel instead of
+			 *   an InfoWindow
+			 */
+
+			/**
+			 * Initializes the map and calls the function that creates polylines.
+			 */
+			function initialize() {
+				var myOptions = {
+					center: new google.maps.LatLng(40.048362,-89.230957),
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				 };
+				 var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+				 var kmzLayer = new google.maps.KmlLayer('https://googledrive.com/host/0B2Jo0VTLiqp3eXI5d3o5bTU3Szg/2011_Illinois_StateSenate.kmz',{
+         	suppressInfoWindows: true,
+                      map: map,
+                      preserveViewport: true
+                  });
+				 kmzLayer.setMap(map);
+				  map.setZoom(6);
+
+ 				 var map2 = new google.maps.Map(document.getElementById("map_canvas2"), myOptions);
+				 var kmzLayer2 = new google.maps.KmlLayer(' {{ map_file }} ',{
+                      suppressInfoWindows: true,
+                      map: map,
+                      preserveViewport: true
+                  });
+
+
+				 kmzLayer2.setMap(map2);
+				 map2.setZoom(6);
+
+			}
+
+			google.maps.event.addDomListener(window, 'load', initialize);
+
+
+    </script>
+  </head>
+
+	<body>
+
+		<div style="width:800px; height:100px; margin-bottom:10px;">
+			<div style="width:364px; float:left;">
+				<img width="564" height="97" src="/static/datamandering.jpg" alt="datamandering">
+			</div>
+		</div>
+	
+		<div style="width:70px; height=100%; float:left; color:white">
+			temp
+		</div>
+
+		<div style="width:53px; height=100%; float:left; margin:5px; padding:5px; text-color: rgb(0,0,100); background-color:rgb(70,70,70); font-size:18px; position: fixed;">
+			<div style="margin-left: auto; margin-right: auto;width:35px; padding-top:15px;">
+				<a href="http://127.0.0.1:8000#method"><img width="35" src="/static/about.jpg" alt="about"></a>
+			</div>
+
+			<div style="margin-left: auto; margin-right: auto; width:50px;padding-top:15px;">
+			  	<a href="/#method"> <img width="50" src="/static/method.jpg" alt="about"></a>
+			</div>
+
+			<div style="margin-left: auto; margin-right: auto; width:45px;padding-top:15px;">
+				<img width="45" src="/static/analysis.jpg" alt="about">
+			</div>
+
+			<div style="margin-left: auto; margin-right: auto; width:45px;padding-top:15px;padding-bottom:15px;">
+				<a href="/#map"><img width="45" src="/static/map.jpg" alt="about"></a>
+			</div>
+		</div>
+
+		<!-- div 0 -->
+		<div id="wrap">
+			<!-- Draw Maps -->
+			<!-- div 1 -->
+			<div id="left_col">
+				<div id="header">Current Map</div>
+				<div id="map_canvas"></div>
+			</div>
+			<!-- close div 1 -->
+
+			<div id="left_col">
+				<div id="header">Your Map</div>
+				<div id="map_canvas2"></div>
+			</div>
+
+			<!-- Draw Gains -->
+			<div id="right_col">
+				<!-- Draw Senate Gains -->
+				<div style="width:290px; height=300px;">
+					<div style="margin:5px; padding:5px; width:120px; float: left;">
+						 <div id="small_header">Current Map</div>
+						 <div id="senate_current"  style="width:120px;height:100px;"></div>
+					</div>
+
+					<div style="margin:5px; padding:5px; width:100px; float: left;">
+						 <div id="small_header">Your Map</div>
+						 <div id="senate_selected"  style="width:100px;height:100px;"></div>
+					</div>
+			 		<div id="chartLegend"></div>
+				</div>
+
+				<!-- Draw Minority Gains -->
+				<div style="width:290px; height=300px;">
+					<div style="margin:5px; padding:5px; width:120px; float: left;">
+						  <div id="minority_current"  style="width:120px;height:100px;"></div>
+					</div>
+				<div style="margin:5px; padding:5px; width:100px; float: left;">
+					 <div id="minority_selected"  style="width:100px;height:100px;"></div>
+				</div>
+		 		<div id="chartLegend2"></div>
+				
+
+				<!-- Display Senate and Minority Gains -->
+				<div style="margin:5px; padding:5px; width:285px; float: left; border-radius: 10px; border:2px solid gray;">
+					<div style="text-align:center; font-size:18px; font-weight:bold;">Your Map vs. Current Map</div>
+					<div style="margin:5px; padding:5px; width:285px; float: left; text-align:left; font-size:16px; ">
+									+ {{ delta_gains }} {{ delta_party }} district(s)
+				</div>
+
+				<div style="margin:5px; padding:5px; width:285px; float: left; text-align:left; font-size:16px; ">
+						{{ sign_minority }} {{ delta_minority }} Majority-minority districts(s)
+				</div>
+
+			</div>
+		</div>
+
+		
+		<div id=bottom_row > 
+			Download your Gerrymandered Illinois State Senate District map as a kmz file: <a href="{{ map_file }}"> Your map </a>
+		</div>
+
+		<div id=bottom_row > 
+			<div id="header">How far off are these maps from an average map?</div> 
+			<a href="<a href="http://www.datamandering.org#method">"> See explaination of these results here </a>
+		</div>
+	
+		<!-- Draw Histograms for each variable -->
+		{% for item in plots %}
+			{%  if forloop.first  %}
+				<div id="bottom_row">
+			{% endif %}
+					<div style="width:300px; height:200px; float:left">
+						<!-- Draw Title -->			
+						<div style="width:300px; text-align:center; font-weight:bold;"> {{ item.1 }} </div>
+						<img width="50" height="140" font-weight:bold;  src="/static/yaxis.jpg" alt="datamandering">
+						<!-- Draw Graph -->			
+						<div id="placeholder{{forloop.counter}}" style="width:250px;height:150px; float:right;"></div>
+						<img width="195" height="14" align="right" src="/static/xaxis.jpg" alt="datamandering">
+					</div>
+			{%  if forloop.counter|divisibleby:3  %}
+				</div>
+			{% endif %}
+							
+			{%  if forloop.counter|divisibleby:3  %}
+				<div id="bottom_row">
+			{% endif %}
+
+			{% if forloop.last %}
+				</div>
+			{% endif %}
+		
+		{% endfor %}
+  </body>
+</html>
+
+
+
+
+
+
+
+
