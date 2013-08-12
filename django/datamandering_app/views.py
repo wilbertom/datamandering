@@ -15,7 +15,7 @@ import time
 from scipy.stats.stats import pearsonr
 
 def find_map(variable, value, dem_wins):
-	infile_variance=open("/home/john/datamandering_project/data/all_raw_norm.csv").read().split('\n')
+	infile_variance=open("../data/all_raw_norm.csv").read().split('\n')
 
 	min_dist=10000000000
 	
@@ -285,7 +285,7 @@ def main_page(request):
 				Response_template=get_template('submitted.html')
 				plots=[]
 				bins=[]
-				histo_data=open('/home/john/datamandering_project/data/all_raw_norm_histo.csv').read().split('\n')
+				histo_data=open('../data/all_raw_norm_histo.csv').read().split('\n')
 
 				for x in range(0,20):
 					bins.append(x*0.05)
